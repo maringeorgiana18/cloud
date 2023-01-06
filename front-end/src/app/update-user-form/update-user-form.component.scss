@@ -1,0 +1,11 @@
+mat-card-title, mat-card-content, mat-card-actions, mat-form-field {
+  display: flex;
+  justify-content: center;
+}
+
+mat-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

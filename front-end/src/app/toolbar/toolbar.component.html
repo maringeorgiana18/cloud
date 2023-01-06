@@ -1,0 +1,79 @@
+<mat-toolbar color="primary">
+  <div class="left">
+    <div (mouseenter)="studentMenu()" *ngIf="currentUser() !== null">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <div *ngIf="currentUser().role === 'ADMIN'">
+          <button mat-menu-item routerLink="/add-teacher">
+            <mat-icon>person_add</mat-icon>
+            <span>Add teacher</span>
+          </button>
+          <button mat-menu-item routerLink="/teachers">
+            <mat-icon>list</mat-icon>
+            <span>Teachers</span>
+          </button>
+          <button mat-menu-item routerLink="/students">
+            <mat-icon>list_alt</mat-icon>
+            <span>Students</span>
+          </button>
+          <button mat-menu-item routerLink="/questions">
+            <mat-icon>description</mat-icon>
+            <span>Questions</span>
+          </button>
+        </div>
+        <div *ngIf="currentUser().role === 'TEACHER'">
+            <button mat-menu-item routerLink="/add-question">
+              <mat-icon>note_add</mat-icon>
+              <span>Add question</span>
+            </button>
+            <button mat-menu-item routerLink="/questions">
+              <mat-icon>list</mat-icon>
+              <span>Questions</span>
+            </button>
+        </div>
+        <div *ngIf="currentUser().role === 'STUDENT'">
+          <button mat-menu-item routerLink="/learning-environment">
+            <mat-icon>play_arrow</mat-icon>
+            <span>Learning environment</span>
+          </button>
+          <button mat-menu-item routerLink="/exam-simulation">
+            <mat-icon>school</mat-icon>
+            <span>Exam simulation</span>
+          </button>
+          <button mat-menu-item routerLink="/question-history">
+            <mat-icon>list</mat-icon>
+            <span>Questions history</span>
+          </button>
+          <button mat-menu-item routerLink="/exams">
+            <mat-icon>list_alt</mat-icon>
+            <span>Exams history</span>
+          </button>
+          <button mat-menu-item routerLink="/questions-updated">
+            <mat-icon [matBadge]="numberOfUpdatedQuestion" matBadgePosition="before">update</mat-icon>
+            <span>Modified questions</span>
+          </button>
+        </div>
+      </mat-menu>
+    </div>
+    <button class="button-left" mat-icon-button routerLink="/">
+      <mat-icon>home</mat-icon>
+    </button>
+    <h1 *ngIf="currentUser() !== null">{{currentUser().role}}</h1>
+  </div>
+  <div class="center">
+    <p class="title">QuizSter</p>
+  </div>
+  <div class="right">
+    <button *ngIf="currentUser() === null" class="button-right" mat-icon-button routerLink="/login">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <button *ngIf="currentUser() === null" class="button-right" mat-icon-button routerLink="/register">
+      <mat-icon>create</mat-icon>
+    </button>
+    <button *ngIf="currentUser() !== null" class="button-right" mat-icon-button (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,46 @@
+<div [@fadeInOut] class="test" *ngIf="currentUser() === null">
+  <div class="box2">
+    <img src="../../assets/about-us.jpg" alt="about us">
+    <div class="text-box">
+      <h1>About us</h1>
+      <p>
+        We are a young team specialized in developing web applications based on reliable technologies that can support a large number of users.
+        Regardless of the category to which the application business belongs, our team is able to adapt to any challenge.</p>
+    </div>
+  </div>
+  <div class="box2">
+    <div class="text-box">
+      <h1>What we do here</h1>
+      <p>Taking into account the need to digitize all the processes of interaction with the institutions of the country we belong to, we want to lend a helping hand to the process of developing the necessary platforms.
+        The built platform has the role of initially helping all students who want to apply at the Polytechnic University of Bucharest, offering them an easy to use environment where they can practice the experience of the entrance exam.</p>
+    </div>
+    <img src="../../assets/what-we-do-here.png" alt="what we do here">
+  </div>
+</div>
+
+<div class="test" [@fadeInOut] *ngIf="currentUser() !== null">
+  <h1 style="font-weight: bold; margin-top: 1%">HOME PAGE</h1>
+  <div class="main">
+    <app-update-user-form *ngIf="user !== undefined" [user]="user"></app-update-user-form>
+    <div *ngIf="currentUser().role === 'ADMIN'" style="border-left: 1px solid black; height: 100%; width: 70%; margin-left: 5%">
+      <div class="box">
+        <div id="chartContainer1" style="height: 80%; width: 40%; margin-right: 10%"></div>
+        <div id="chartContainer2" style="height: 70%; width: 30%"></div>
+      </div>
+      <div class="box">
+        <div id="chartContainer3" style="height: 70%; width: 30%; margin-right: 10%"></div>
+        <div id="chartContainer4" style="height: 80%; width: 40%"></div>
+      </div>
+    </div>
+    <div *ngIf="currentUser().role === 'TEACHER' || currentUser().role === 'STUDENT'" style="border-left: 1px solid black; height: 100%; width: 70%; margin-left: 5%">
+      <div class="box">
+        <div id="chartContainer5" style="height: 80%; width: 65%"></div>
+      </div>
+      <div class="box">
+        <div id="chartContainer6" style="height: 70%; width: 40%; margin-right: 10%"></div>
+        <div id="chartContainer7" style="height: 70%; width: 40%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+

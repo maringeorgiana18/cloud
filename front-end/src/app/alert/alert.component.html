@@ -1,0 +1,5 @@
+<div class="box2">
+  <div [@fadeInOut] *ngFor="let alert of alerts" class="{{cssClass(alert)}}">
+    <p>{{alert.message}}</p>
+  </div>
+</div>

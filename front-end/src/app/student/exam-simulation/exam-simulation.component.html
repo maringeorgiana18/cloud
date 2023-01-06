@@ -1,0 +1,58 @@
+<img [@fadeInOut] src="../../../assets/exam.jpg" alt="admin-home">
+<div [@fadeInOut] class="box">
+  <div *ngIf="exam === null" class="box1 mat-elevation-z6">
+    <form [formGroup]="formPrincipal">
+      <mat-form-field>
+        <mat-select formControlName="type" placeholder='Question type'>
+          <mat-option *ngFor="let element of allProfiles" value={{element}}>{{element}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+    <div style="width: 10%">
+      <button *ngIf="sendMenu === false && exam === null" color="primary" mat-raised-button (click)="startExam()">Start</button>
+      <mat-spinner diameter="50" *ngIf="sendMenu === true"></mat-spinner>
+    </div>
+  </div>
+
+  <mat-vertical-stepper [selectedIndex]="15" [@fadeInOut] style="width: 70%" *ngIf="exam !== null && exam !== undefined" #stepper>
+    <div class="action" *ngFor="let questionFormGroup of questionsFormGroup; let i = index" [attr.data-index]="i">
+      <mat-step [completed]="checkCompleted(i)" class="action" [stepControl]="questionFormGroup">
+          <ng-template matStepLabel>Question {{i + 1}}</ng-template>
+            <div  *ngIf="exam !== null" class="box2 mat-elevation-z6">
+              <h2>Description:</h2>
+              {{exam.attempts[i].description}}
+              <hr>
+              <mat-divider></mat-divider>
+              <hr>
+              <h2>Content:</h2>
+              <div mathjax style="white-space: pre">
+                {{exam.attempts[i].content}}
+              </div>
+              <hr>
+              <mat-divider></mat-divider>
+              <hr>
+              <h2>Answers:</h2>
+              <div class="container">
+                <div class="item mat-elevation-z6" *ngFor="let answer of exam.attempts[i].answers; index as ii">
+                  <div style="display: flex; justify-content: center; align-items: center; flex-direction: row;">
+                    <mat-checkbox color="primary" [(ngModel)]="checkList[i][ii]"  style="white-space: pre; margin-right: 10%"></mat-checkbox>
+                    <div mathjax style="white-space: pre">{{answer.content}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="width: 100%; height: 40px">
+            </div>
+      </mat-step>
+    </div>
+    <mat-step [completed]="false">
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button *ngIf="sendVerify === false" style="margin-right: 10px" color="primary" mat-raised-button (click)="finish()">Finish</button>
+        <button *ngIf="sendVerify === false" color="primary" mat-raised-button (click)="reset(stepper)">Reset</button>
+        <mat-spinner [diameter]="50" *ngIf="sendVerify === true"></mat-spinner>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>

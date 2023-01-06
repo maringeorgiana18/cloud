@@ -1,0 +1,54 @@
+<img [@fadeInOut] src="{{image}}" alt="students">
+<div [@fadeInOut] class="box1">
+  <h1>{{title}}</h1>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  </mat-form-field>
+
+  <div class="box2 mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> User name </th>
+        <td mat-cell *matCellDef="let row"> {{row.userName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> email </th>
+        <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+      </ng-container>
+
+      <ng-container *ngIf="this.role === 'teacher'" matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let row" >
+          <span *ngIf="!row.enable">Disable</span>
+          <span *ngIf="row.enable">Enable</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="update">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="goToUpdateUser(element)"><mat-icon>build</mat-icon></button>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = index;">
+          <button mat-icon-button color="warn" *ngIf="element.enable" (click)="deleteUser(i, element.email)"><mat-icon>delete</mat-icon></button>
+          <button mat-icon-button color="primary" *ngIf="!element.enable && this.role === 'teacher'" (click)="reactivateTeacher(i, element.email)"><mat-icon>how_to_reg</mat-icon></button>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+  </div>
+</div>

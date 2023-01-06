@@ -1,0 +1,50 @@
+<div [@fadeInOut]>
+  <img src="{{image}}" alt="register">
+  <mat-card class="mat-elevation-z6">
+    <mat-card-title>{{title}}</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="form">
+        <mat-form-field>
+          <input type="text" matInput placeholder="Username" formControlName="username">
+          <mat-error *ngIf="form.get('username').hasError('required')">
+            Username is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Email" formControlName="email">
+          <mat-error *ngIf="form.get('email').hasError('email') && !form.get('email').hasError('required')">
+            Email is invalid
+          </mat-error>
+          <mat-error *ngIf="form.get('email').hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="form.get('email').errors?.emailExist">
+            Email exist
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="password" matInput placeholder="Password" formControlName="password">
+          <mat-error *ngIf="form.get('password').hasError('required')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="form.get('password').hasError('pattern')">
+            Password is invalid
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="password" matInput placeholder="Confirm password" formControlName="confirmPassword">
+          <mat-error *ngIf="form.get('confirmPassword').hasError('required')">
+            Confirm password is required
+          </mat-error>
+          <mat-error *ngIf="form.get('confirmPassword').hasError('mustMatch')">
+            Password must match
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <mat-spinner *ngIf="send"></mat-spinner>
+      <button *ngIf="!send" mat-raised-button color="primary" (click)="submit()">SUBMIT</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

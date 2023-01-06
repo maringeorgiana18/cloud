@@ -1,0 +1,45 @@
+mat-toolbar {
+  height: 6%;
+  display: flex;
+  flex-direction: row;
+}
+
+.title {
+  font-size: larger;
+  font-family: Cursive;
+}
+
+.left {
+  height: 100%;
+  width: 32%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.center {
+  height: 100%;
+  width: 36%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right {
+  height: 100%;
+  width: 32%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.button-right {
+  margin-right: 3%;
+}
+
+.button-left, h1 {
+  margin-left: 3%;
+}

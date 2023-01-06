@@ -1,0 +1,81 @@
+<img [@fadeInOut] src="../../../assets/questions.jpg" alt="register">
+<div [@fadeInOut] class="box1">
+  <h1>Questions History</h1>
+
+  <div class="box2 mat-elevation-z8" >
+    <table mat-table
+           [dataSource]="dataSource" multiTemplateDataRows
+    >
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+        <th mat-header-cell *matHeaderCellDef>
+          <div *ngIf="column !== 'startDate' && column !== 'endDate' && column !== 'status' && column !== 'historyStatus'">
+            {{ column }}
+          </div>
+          <div *ngIf="column === 'startDate'">
+            start date
+          </div>
+          <div *ngIf="column === 'endDate'">
+            complete date
+          </div>
+          <div *ngIf="column === 'historyStatus'">
+            status
+          </div>
+          <div *ngIf="column === 'status'">
+            result
+          </div>
+        </th>
+        <td  [ngClass]="{'correct-result': element['status'] === true, 'incorrect-result' : element['status'] === false }" mat-cell *matCellDef="let element">
+          <div *ngIf="column === 'description'">
+            {{convertDescription(element[column])}}
+          </div>
+          <div *ngIf="column === 'startDate'">
+            {{convertTimeStamp(element[column])}}
+          </div>
+          <div *ngIf="column === 'endDate'">
+            {{convertTimeStamp(element[column])}}
+          </div>
+          <div *ngIf="column === 'type'">
+            {{element[column]}}
+          </div>
+          <div *ngIf="column === 'historyStatus'">
+            {{element[column]}}
+          </div>
+          <div *ngIf="column === 'status'">
+            <span *ngIf="element[column] === true">CORRECT</span>
+            <span *ngIf="element[column] === false">INCORRECT</span>
+            <span *ngIf="element[column] === null">-</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element; let i = dataIndex;" [attr.colspan]="columnsToDisplay.length">
+          <div class="example-element-detail"
+               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <hr>
+            <p>Description:</p>
+            {{element.description}}
+            <hr>
+            <p>Content:</p>
+            <div *ngIf="element.type" [mathjax] style="white-space: pre">
+              {{element.content}}
+            </div>
+            <hr>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data found.</td>
+      </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+  </div>
+</div>

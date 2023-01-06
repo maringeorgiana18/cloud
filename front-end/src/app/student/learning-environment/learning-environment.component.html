@@ -1,0 +1,53 @@
+<img [@fadeInOut] src="../../../assets/learning.png" alt="admin-home">
+<div [@fadeInOut] class="box">
+  <div class="box1 mat-elevation-z6">
+    <form [formGroup]="formPrincipal">
+      <mat-form-field>
+        <mat-select formControlName="type" placeholder='Question type'>
+          <mat-option *ngFor="let element of allProfiles" value={{element}}>{{element}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select formControlName="option" placeholder='Includes completed questions'>
+          <mat-option value=true>Yes</mat-option>
+          <mat-option value=false>No</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+    <div style="width: 10%">
+      <button [matBadge]="numberOfQuestion" matBadgePosition="before" *ngIf="sendMenu === false && question !== null" color="primary" (click)="skipQuestion()" mat-raised-button>Skip</button>
+      <button [matBadge]="numberOfQuestion" matBadgePosition="before" *ngIf="sendMenu === false && question === null" color="primary" (click)="startQuestion()" mat-raised-button>Start</button>
+      <mat-spinner diameter="50" *ngIf="sendMenu === true"></mat-spinner>
+    </div>
+  </div>
+  <div [@fadeInOut] *ngIf="question !== null" class="box2 mat-elevation-z6">
+    <h2>Description:</h2>
+    {{question.description}}
+    <hr>
+    <mat-divider></mat-divider>
+    <hr>
+    <h2>Content:</h2>
+    <div mathjax style="white-space: pre">
+      {{question.content}}
+    </div>
+    <hr>
+    <mat-divider></mat-divider>
+    <hr>
+    <h2>Answers:</h2>
+    <div class="container">
+      <div class="item mat-elevation-z6" *ngFor="let answer of question.answers; index as i">
+        <div style="display: flex; justify-content: center; align-items: center; flex-direction: row;">
+          <mat-checkbox color="primary" [(ngModel)]="checkList[i]"  style="white-space: pre; margin-right: 10%"></mat-checkbox>
+          <div mathjax style="white-space: pre">{{answer.content}}</div>
+        </div>
+      </div>
+    </div>
+      <div class="action">
+      <button *ngIf="sendVerify === false" style="width: 20%; margin: 2%" mat-raised-button color="primary" (click)="verify()">Verify</button>
+        <div *ngIf="sendVerify === true" style="width: 100%; height: 50px"></div>
+      <mat-spinner *ngIf="sendVerify === true"></mat-spinner>
+    </div>
+  </div>
+  <div style="width: 100%; height: 40px">
+  </div>
+</div>

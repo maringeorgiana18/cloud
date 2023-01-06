@@ -1,0 +1,62 @@
+<img [@fadeInOut] src="../../../assets/questions.jpg" alt="register">
+<div [@fadeInOut] class="box1">
+  <h1>Questions Updated</h1>
+
+  <div class="box2 mat-elevation-z8" >
+    <table mat-table
+           [dataSource]="dataSource" multiTemplateDataRows
+    >
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+        <th mat-header-cell *matHeaderCellDef>
+          <div *ngIf="column !== 'action'">
+            {{ column }}
+          </div>
+          <div *ngIf="column === 'action'">
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="column === 'description'">
+            {{convertDescription(element[column])}}
+          </div>
+          <div *ngIf="column === 'action'">
+            <div>
+              <button mat-icon-button (click)="recheckQuestion(element)"><mat-icon>replay</mat-icon></button>
+            </div>
+          </div>
+          <div *ngIf="column === 'type'">
+            {{element[column]}}
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element; let i = dataIndex;" [attr.colspan]="columnsToDisplay.length">
+          <div class="example-element-detail"
+               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <hr>
+            <p>Description:</p>
+            {{element.description}}
+            <hr>
+            <p>Content:</p>
+            <div *ngIf="element.type" [mathjax] style="white-space: pre">
+              {{element.content}}
+            </div>
+            <hr>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data found.</td>
+      </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+  </div>
+</div>
