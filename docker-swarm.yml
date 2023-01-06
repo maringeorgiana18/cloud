@@ -1,0 +1,109 @@
+version: "3.7"
+
+services:
+    mysql_db:
+        hostname: mysql_db
+        image: mysql:5.6
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=licenta
+            - MYSQL_PASSWORD=root
+        networks:
+            - project_network
+        deploy:
+            placement:
+                constraints:
+                    - "node.role==manager"
+
+    mongo:
+        hostname: mongo
+        image: mongo:4.2
+        networks:
+            - project_network
+        deploy:
+            placement:
+                constraints:
+                    - "node.role==manager"
+    
+    rabbitmq:
+        hostname: rabbitmq
+        image: rabbitmq:3.8-management-alpine
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
+        ports:
+            # AMQP protocol port
+            - '5672:5672'
+            # HTTP management UI
+            - '15672:15672'
+        networks:
+            - project_network
+
+    procesator:
+        hostname: procesator
+        image: localhost:5000/procesator
+        networks:
+            - project_network
+        depends_on:
+            - rabbitmq
+        ports:
+            - 8081:8081
+
+    backend:
+        hostname: backend
+        image: localhost:5000/backend
+        networks:
+            - project_network
+        depends_on:
+            - rabbitmq
+            - mysql_db
+            - mongo
+        ports:
+            - 8080:8080
+    
+    frontend:
+        hostname: frontend
+        image: localhost:5000/frontend
+        networks:
+            - project_network
+        depends_on:
+            - backend
+        ports:
+            - 4200:80
+
+    kong:
+        image: kong:latest
+        volumes:
+            - ./Kong:/usr/local/kong/declarative
+        environment:
+            KONG_DATABASE: 'off'
+            KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
+            KONG_PROXY_ACCESS_LOG: /dev/stdout
+            KONG_ADMIN_ACCESS_LOG: /dev/stdout
+            KONG_PROXY_ERROR_LOG: /dev/stderr
+            KONG_ADMIN_ERROR_LOG: /dev/stderr
+            KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+        ports:
+            - 80:8000
+            - 443:8443
+            - 8001:8001
+            - 8444:8444
+        deploy:
+            placement:
+                constraints: [node.role == manager]
+        networks:
+            - project_network 
+    
+    adminer:
+        image: adminer
+        ports:
+            - 8083:8080
+        depends_on:
+            - mysql_db
+        networks:
+            - project_network
+
+networks:
+    project_network:
+        driver: overlay

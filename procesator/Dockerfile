@@ -1,0 +1,4 @@
+FROM openjdk:11
+ADD target/procesator-0.0.1-SNAPSHOT.jar procesator.jar
+EXPOSE 8081
+ENTRYPOINT ["java", "-jar", "procesator.jar"]

@@ -1,0 +1,2 @@
+# Licenta
+Aplicatie pregatire admitere

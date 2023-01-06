@@ -1,0 +1,23 @@
+_format_version: "2.1"
+
+services:
+    - name: visualizer
+      url: http://visualizer:8082
+      routes:
+        - name: visualizer-service
+          paths:
+            - /visualizer
+
+    - name: frontend
+      url: http://frontend:4200
+      routes:
+        - name: frontend-service
+          paths:
+            - /frontend
+
+    - name: adminer
+      url: http://adminer:8083
+      routes:
+        - name: adminer-service
+          paths:
+            - /adminer
