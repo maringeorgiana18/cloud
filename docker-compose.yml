@@ -33,22 +33,22 @@ services:
     networks:
       - project_network
 
-  procesator:
-    build: procesator
-    networks:
-      - project_network
-    depends_on:
-      - rabbitmq
-    ports:
-      - 8081:8081
-    container_name: procesator
+  #procesator:
+   # build: procesator
+    #networks:
+     # - project_network
+    #depends_on:
+     # - rabbitmq
+    #ports:
+     # - 8081:8081
+    #container_name: procesator
 
   backend:
     build: back-end
     networks:
       - project_network
     depends_on:
-      - rabbitmq
+      #- rabbitmq
       - mysql_db
       - mongo
     ports:
