@@ -19,30 +19,6 @@ services:
       - project_network
     container_name: mongo
 
-  #rabbitmq:
-   # container_name: "rabbitmq"
-    #image: rabbitmq:3.8-management-alpine
-    #environment:
-     #   - RABBITMQ_DEFAULT_USER=guest
-     #   - RABBITMQ_DEFAULT_PASS=guest
-   # ports:
-        # AMQP protocol port
-    #    - '5672:5672'
-        # HTTP management UI
-     #   - '15672:15672'
-    #networks:
-    #  - project_network
-
-  #procesator:
-   # build: procesator
-    #networks:
-     # - project_network
-    #depends_on:
-     # - rabbitmq
-    #ports:
-     # - 8081:8081
-    #container_name: procesator
-
   backend:
     build: back-end
     networks:
